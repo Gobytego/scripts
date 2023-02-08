@@ -1,0 +1,50 @@
+#! /bin/bash
+
+#UPD (Version 1.0)(June 1, 2022) -- by Adam of Gobytego
+#UPD is a quick utility to update, upgrade, clean all in one shot.
+#Made for Debian/Ubuntu based systems, but with some modifications should work with other systems as well.
+#(GNU/General Public License version 3.0)
+
+clear
+echo 
+echo 
+echo "updating system"
+echo 
+echo 
+sudo apt update  
+echo 
+echo 
+echo "trying a dist-upgrade"
+echo 
+echo 
+sudo apt dist-upgrade -yy  
+echo 
+echo 
+echo "trying a full-upgrade"
+echo 
+echo 
+sudo apt full-upgrade -yy  
+echo 
+echo 
+echo "now cleaning" 
+echo 
+echo 
+sudo apt autoremove -yy  
+sudo apt auto-clean  
+sudo apt remove --purge $(dpkg -l | grep "^rc" | awk '{print $2}')
+echo
+echo 
+echo 'lets try updating flatpaks'
+echo
+flatpak update -y
+echo 'now lets try updating snaps'
+echo
+sudo snap refresh
+echo
+echo "all done"
+echo 
+if [ -f /var/run/reboot-required ]; then
+  echo '!!!!!!!!WARNING!!!!!!!! Please reboot system!!!!!!!!'; else echo "--------No reboot required :)--------";
+fi
+echo
+echo bye bye
