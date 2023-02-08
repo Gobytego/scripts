@@ -1,0 +1,17 @@
+#! /bin/bash
+
+#howold (Version 1.2)(June 9,2022) -- by Adam of gobytego
+#howold is simple tool to determine what the date is you installed your system and that's about it.
+#Made for Debian/Ubuntu based Linux systems. But with some modifications should work with other systems as well.
+#(GNU/General Public License version 3.0)
+
+#Check for tune2fs, install if needed: ## shouldn't need this anymore but leaving it here for now
+#dpkg -l | grep -qw tune2fs || sudo apt install tune2fs -yyq
+
+#set variable for the root partition:
+DRIVE=$(df | grep -w "/" | awk '{ print $1 }')
+
+#run the command to see date the root partition was created:
+sudo tune2fs -l $DRIVE | grep created
+
+#enjoy the output!
